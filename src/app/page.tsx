@@ -4,9 +4,17 @@ import ListTodo from "./todo/components/list.todo";
 
 import {  currentUser } from '@clerk/nextjs/server'
 import { UserButton } from '@clerk/nextjs'
+import { redirect } from "next/navigation";
+
+
 
 const TodoPage = async () => {
+ 
   const user = await currentUser()
+
+  if(!user){
+    redirect("/login");
+  }
   
   const todos = await prisma.todo.findMany({
     where: {
